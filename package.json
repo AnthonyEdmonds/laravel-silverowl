@@ -1,0 +1,21 @@
+{
+    "name": "laravel-silverowl",
+    "description": "A fully integrated Laravel content engine, complete with admin, routes, controllers, and UI.",
+    "keywords": [
+        "laravel",
+        "silver owl",
+        "content engine"
+    ],
+    "author": "Anthony Edmonds",
+    "license": "MIT",
+    "homepage": "https://github.com/AnthonyEdmonds/laravel-silverowl",
+    "scripts": {
+        "test": "php vendor/bin/phpunit",
+        "php-cs-fixer": "php vendor/bin/php-cs-fixer fix",
+        "php-stan": "php vendor/bin/phpstan analyse -c phpstan.neon",
+        "prepare": "husky install"
+    },
+    "devDependencies": {
+        "husky": "^7.0.4"
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "name": "anthonyedmonds/laravel-silverowl",
+    "description": "A fully integrated Laravel content engine, complete with admin, routes, controllers, and UI.",
+    "keywords": ["laravel", "silver owl", "content engine"],
+    "homepage": "https://github.com/AnthonyEdmonds/laravel-silverowl",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anthony Edmonds",
+            "email": "contact@anthonyedmonds.me",
+            "homepage": "https://anthonyedmonds.me",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8",
+        "illuminate/support": "^8"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.3",
+        "orchestra/testbench": "^6",
+        "phpstan/phpstan": "^1.2",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Anthonyedmonds\\SilverOwl\\": "src/app"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AnthonyEdmonds\\SilverOwl\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SilverOwlServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
