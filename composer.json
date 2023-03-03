@@ -36,7 +36,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "SilverOwlServiceProvider"
+                "AnthonyEdmonds\\SilverOwl\\Providers\\SilverOwlServiceProvider"
             ]
         }
     },
