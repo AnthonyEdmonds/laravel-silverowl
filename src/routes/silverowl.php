@@ -1,6 +1,5 @@
 <?php
 
-use AnthonyEdmonds\SilverOwl\Http\Controllers\ContentController;
 use AnthonyEdmonds\SilverOwl\Http\Controllers\HomeController;
 use AnthonyEdmonds\SilverOwl\Http\Controllers\SearchController;
 use AnthonyEdmonds\SilverOwl\Http\Controllers\SignInController;

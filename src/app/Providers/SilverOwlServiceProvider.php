@@ -2,9 +2,7 @@
 
 namespace AnthonyEdmonds\SilverOwl\Providers;
 
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Validation\Rule;
 
 class SilverOwlServiceProvider extends ServiceProvider
 {
@@ -32,7 +30,7 @@ class SilverOwlServiceProvider extends ServiceProvider
 
     protected function bootRoutes(): void
     {
-        $this->loadRoutesFrom(__DIR__ . '/../../routes/silverowl.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/silverowl.php');
     }
 
     protected function bootViews(): void
