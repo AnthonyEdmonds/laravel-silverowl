@@ -11,7 +11,7 @@
     "homepage": "https://github.com/AnthonyEdmonds/laravel-silverowl",
     "scripts": {
         "test": "php vendor/bin/phpunit",
-        "php-cs-fixer": "php vendor/bin/php-cs-fixer fix",
+        "pint": "php vendor/bin/pint",
         "php-stan": "php vendor/bin/phpstan analyse -c phpstan.neon",
         "prepare": "husky install"
     },
