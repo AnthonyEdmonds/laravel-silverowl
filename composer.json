@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Anthonyedmonds\\SilverOwl\\": "src/app"
+            "AnthonyEdmonds\\SilverOwl\\": "src/app"
         }
     },
     "autoload-dev": {
