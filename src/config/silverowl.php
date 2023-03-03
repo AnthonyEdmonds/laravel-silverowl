@@ -1,3 +1,5 @@
 <?php
 
-return [];
+return [
+    'user_model' => \App\Models\User::class,
+];

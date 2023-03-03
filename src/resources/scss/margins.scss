@@ -1,0 +1,52 @@
+$gap-sizes: (
+    "none": 0,
+    "xxs": calc($gap-basis / 8),
+    "xs": calc($gap-basis / 4),
+    "s": calc($gap-basis / 2),
+    "m": $gap-basis,
+    "l": calc($gap-basis * 1.5),
+    "xl": calc($gap-basis * 2),
+    "xxl": calc($gap-basis * 3)
+);
+
+@each $key, $value in $gap-sizes {
+    .margin-#{$key} {
+        margin: $value;
+    }
+
+    .margin-bottom-#{$key} {
+        margin-bottom: $value;
+    }
+
+    .margin-left-#{$key} {
+        margin-left: $value;
+    }
+
+    .margin-right-#{$key} {
+        margin-right: $value;
+    }
+
+    .margin-top-#{$key} {
+        margin-top: $value;
+    }
+
+    .padding-#{$key} {
+        padding: $value;
+    }
+
+    .padding-bottom-#{$key} {
+        padding-bottom: $value;
+    }
+
+    .padding-left-#{$key} {
+        padding-left: $value;
+    }
+
+    .padding-right-#{$key} {
+        padding-right: $value;
+    }
+
+    .padding-top-#{$key} {
+        padding-top: $value;
+    }
+}

@@ -3,9 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>
-            @isset($pageTitle)
-                {{ $pageTitle }} -
-            @endif
+            @isset($pageTitle){{ $pageTitle }} - @endif
             {{ env('APP_NAME', 'SilverOwl') }}
         </title>
 

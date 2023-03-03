@@ -19,6 +19,7 @@ class SilverOwlServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->bootPublishes();
+        $this->bootRoutes();
         $this->bootViews();
     }
 
@@ -27,6 +28,11 @@ class SilverOwlServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../resources/views' => resource_path('views/vendor/silverowl'),
         ], 'silverowl-blade');
+    }
+
+    protected function bootRoutes(): void
+    {
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/silverowl.php');
     }
 
     protected function bootViews(): void
