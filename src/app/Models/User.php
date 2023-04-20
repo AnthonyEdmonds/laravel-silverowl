@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
 
+/**
+ * @property string $slug
+ * @property string $username
+ */
 class User extends Authenticatable
 {
     use HasFactory;

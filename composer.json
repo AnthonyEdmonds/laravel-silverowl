@@ -15,7 +15,8 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "^10"
+        "illuminate/support": "^10",
+        "laracasts/flash": "^3"
     },
     "require-dev": {
         "laravel/pint": "^1",

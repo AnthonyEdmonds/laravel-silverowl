@@ -4,11 +4,13 @@
 
 ## Todo
 
+* Literally the entire UI
+* Search
+* Indexing
+* User management
 * Link to Composer
 * Permissions
 * Home
-* Categories
-  * Nesting
 * Content
   * Types?
   * Images / uploads?

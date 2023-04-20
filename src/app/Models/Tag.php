@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
+/**
+ * @property string $label
+ * @property string $slug
+ */
 class Tag extends Model
 {
     use HasFactory;
