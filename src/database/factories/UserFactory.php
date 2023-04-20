@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace AnthonyEdmonds\SilverOwl\Database\Factories;
 
 use AnthonyEdmonds\SilverOwl\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;

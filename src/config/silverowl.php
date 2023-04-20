@@ -1,5 +1,7 @@
 <?php
 
+use AnthonyEdmonds\SilverOwl\Models\User;
+
 return [
-    'user_model' => \App\Models\User::class,
+    'user_model' => User::class,
 ];

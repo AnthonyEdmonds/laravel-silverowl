@@ -12,7 +12,7 @@
     "scripts": {
         "test": "php vendor/bin/phpunit",
         "pint": "php vendor/bin/pint",
-        "php-stan": "php vendor/bin/phpstan analyse -c phpstan.neon",
+        "larastan": "php vendor/bin/phpstan analyse --memory-limit=256M",
         "prepare": "husky install"
     },
     "devDependencies": {

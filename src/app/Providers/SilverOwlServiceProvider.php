@@ -16,9 +16,17 @@ class SilverOwlServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->bootMigrations();
         $this->bootPublishes();
         $this->bootRoutes();
         $this->bootViews();
+    }
+
+    protected function bootMigrations(): void
+    {
+        $this->loadMigrationsFrom([
+            __DIR__.'../../database/migrations',
+        ]);
     }
 
     protected function bootPublishes(): void
