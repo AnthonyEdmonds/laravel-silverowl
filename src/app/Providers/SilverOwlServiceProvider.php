@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\SilverOwl\Providers;
 
+use AnthonyEdmonds\SilverOwl\Console\Commands\AddUser;
 use Illuminate\Support\ServiceProvider;
 
 class SilverOwlServiceProvider extends ServiceProvider
@@ -12,6 +13,10 @@ class SilverOwlServiceProvider extends ServiceProvider
             __DIR__.'/../../config/silverowl.php',
             'silverowl'
         );
+        
+        $this->commands([
+            AddUser::class,
+        ]);
     }
 
     public function boot(): void
@@ -21,7 +26,7 @@ class SilverOwlServiceProvider extends ServiceProvider
         $this->bootRoutes();
         $this->bootViews();
     }
-
+    
     protected function bootMigrations(): void
     {
         $this->loadMigrationsFrom([

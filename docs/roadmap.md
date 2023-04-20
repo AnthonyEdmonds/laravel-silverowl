@@ -7,9 +7,8 @@
 * Literally the entire UI
 * Search
 * Indexing
-* User management
-* Link to Composer
-* Permissions
+* Users
+  * Change password
 * Home
 * Content
   * Types?
