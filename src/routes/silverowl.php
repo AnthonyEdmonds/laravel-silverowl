@@ -10,24 +10,21 @@ use AnthonyEdmonds\SilverOwl\Http\Controllers\SignInController;
 use AnthonyEdmonds\SilverOwl\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/{category}', [CategoryController::class, 'show'])->name('categories.show');
-Route::get('/{category}/{content}', [ContentController::class, 'show'])->name('contents.show');
-
 Route::prefix('/search')
-    ->name('search.')
+    ->name('search')
+    ->controller(SearchController::class)
     ->group(function () {
-        Route::get('/start', [SearchController::class, 'index'])->name('start');
-        Route::get('/results', [SearchController::class, 'show'])->name('results');
+        Route::post('/', 'index');
     });
 
 Route::middleware('guest')
     ->group(function () {
         Route::prefix('/sign-in')
             ->name('sign-in')
+            ->controller(SignInController::class)
             ->group(function () {
-                Route::get('/', [SignInController::class, 'form']);
-                Route::post('/', [SignInController::class, 'signIn']);
+                Route::get('/', 'form');
+                Route::post('/', 'signIn');
             });
     });
 
@@ -79,3 +76,7 @@ Route::middleware('auth')
                     });
             });
     });
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/{category}', [CategoryController::class, 'show'])->name('categories.show');
+Route::get('/{category}/{content}', [ContentController::class, 'show'])->name('contents.show');
