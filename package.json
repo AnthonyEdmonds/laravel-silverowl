@@ -10,10 +10,10 @@
     "license": "MIT",
     "homepage": "https://github.com/AnthonyEdmonds/laravel-silverowl",
     "scripts": {
-        "test": "php vendor/bin/phpunit",
-        "pint": "php vendor/bin/pint",
         "larastan": "php vendor/bin/phpstan analyse --memory-limit=256M",
-        "prepare": "husky install"
+        "pint": "php vendor/bin/pint",
+        "prepare": "husky install",
+        "test": "php vendor/bin/phpunit"
     },
     "devDependencies": {
         "husky": "^8"
