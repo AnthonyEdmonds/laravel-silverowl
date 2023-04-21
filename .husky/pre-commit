@@ -4,5 +4,4 @@
 npm run pint
 npm run larastan
 
-git add -A --no-verify
-git commit -m "Code quality pre-commit"
+git add -A

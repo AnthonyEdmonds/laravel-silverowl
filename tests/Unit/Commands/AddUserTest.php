@@ -13,12 +13,12 @@ class AddUserTest extends TestCase
             ->expectsQuestion('What is their username?', 'Anthony Edmonds')
             ->expectsQuestion('What is their password?', 'myverysecretpassword')
             ->assertOk();
-        
+
         $this->assertDatabaseHas('users', [
             'username' => 'Anthony Edmonds',
         ]);
     }
-    
+
     public function testUsernameMustNotBeNull(): void
     {
         $this->artisan('add:user')
@@ -32,7 +32,7 @@ class AddUserTest extends TestCase
     public function testUsernameMustBeUnique(): void
     {
         $user = User::factory()->create();
-        
+
         $this->artisan('add:user')
             ->expectsQuestion('What is their username?', $user->username)
             ->expectsOutput('Another User with that username already exists. You must pick a unique name.')
@@ -40,7 +40,7 @@ class AddUserTest extends TestCase
             ->expectsQuestion('What is their password?', 'myverysecretpassword')
             ->assertOk();
     }
-    
+
     public function testPasswordMustNotBeNull(): void
     {
         $this->artisan('add:user')
@@ -50,7 +50,7 @@ class AddUserTest extends TestCase
             ->expectsQuestion('What is their password?', 'myverysecretpassword')
             ->assertOk();
     }
-    
+
     public function testPasswordMustBeSixteenCharacters(): void
     {
         $this->artisan('add:user')

@@ -2,22 +2,52 @@
 
 namespace AnthonyEdmonds\SilverOwl\Http\Controllers;
 
+use AnthonyEdmonds\SilverOwl\Http\Requests\SignInRequest;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class SignInController extends Controller
 {
-    public function create(): View
+    public function form(): View
     {
-        // TODO Show sign in form
+        return view('silverowl::sign-in');
     }
 
-    public function store(): View
+    public function signIn(SignInRequest $request): RedirectResponse
     {
-        // TODO Sign in
+        $details = [
+            'username' => strtolower($request->username),
+            'password' => $request->password,
+        ];
+
+        return Auth::attempt($details, true) === true
+            ? $this->loginSucceeded()
+            : $this->loginFailed($details['username']);
     }
 
-    public function destroy(): View
+    public function signOut(): RedirectResponse
     {
-        // TODO Sign out
+        Auth::logout();
+
+        return redirect()->route('home');
+    }
+
+    protected function loginFailed(string $username): RedirectResponse
+    {
+        flash()->error('Sign-in failed');
+
+        return redirect()
+            ->route('sign-in')
+            ->withInput([
+                'username' => $username,
+            ]);
+    }
+
+    protected function loginSucceeded(): RedirectResponse
+    {
+        flash()->success('You have successfully signed in');
+
+        return redirect()->intended();
     }
 }

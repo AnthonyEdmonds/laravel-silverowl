@@ -13,7 +13,7 @@ class PasswordTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->user = User::factory()->make();
         $this->user->password = 'My cool password';
     }

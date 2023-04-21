@@ -43,7 +43,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Content::class, 'author_id', 'id');
     }
-    
+
     // Scopes
     public function scopeByUsername(Builder $query, string $username): Builder
     {
@@ -56,7 +56,7 @@ class User extends Authenticatable
         $this->attributes['username'] = $username;
         $this->attributes['slug'] = Str::slug($username);
     }
-    
+
     public function setPasswordAttribute(string $password): void
     {
         $this->attributes['password'] = Hash::make($password);

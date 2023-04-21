@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
  * Assert that a given collection contains (and / or does not contain) a set of expected (and / or unexpected) data
  *
  * @author Anthony Edmonds
+ *
  * @link https://github.com/AnthonyEdmonds
  */
 trait AssertsResults
@@ -17,8 +18,7 @@ trait AssertsResults
         Collection $expected,
         Collection $unexpected,
         string $key = 'id'
-    ): void
-    {
+    ): void {
         $this->assertResultsContain($results, $expected, $key);
         $this->assertResultsDontContain($results, $unexpected, $key);
     }
@@ -27,8 +27,7 @@ trait AssertsResults
         Collection $results,
         Collection $expected,
         string $key = 'id'
-    ): void
-    {
+    ): void {
         $this->assertResultsCount($results, $expected);
 
         $expected = $expected->pluck($key);
@@ -47,8 +46,7 @@ trait AssertsResults
         Collection $results,
         Collection $unexpected,
         string $key = 'id'
-    ): void
-    {
+    ): void {
         $results = $results->pluck($key);
 
         $unexpected
@@ -64,8 +62,7 @@ trait AssertsResults
     public function assertResultsCount(
         Collection $results,
         Collection $expected
-    ): void
-    {
+    ): void {
         $expectedCount = $expected->count();
         $resultsCount = $results->count();
 

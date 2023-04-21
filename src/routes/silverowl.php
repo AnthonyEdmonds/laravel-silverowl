@@ -26,14 +26,14 @@ Route::middleware('guest')
         Route::prefix('/sign-in')
             ->name('sign-in')
             ->group(function () {
-                Route::get('/', [SignInController::class, 'create']);
-                Route::post('/', [SignInController::class, 'store']);
+                Route::get('/', [SignInController::class, 'form']);
+                Route::post('/', [SignInController::class, 'signIn']);
             });
     });
 
 Route::middleware('auth')
     ->group(function () {
-        Route::get('/sign-out', [SignInController::class, 'destroy']);
+        Route::get('/sign-out', [SignInController::class, 'signOut']);
 
         Route::prefix('/admin')
             ->name('admin.')

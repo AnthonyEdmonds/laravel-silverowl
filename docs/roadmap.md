@@ -5,21 +5,33 @@
 ## Todo
 
 * Literally the entire UI
+* Docs
+* Markdown
+  * CommonMark
+  * R-Markdown custom elements
+* Dashboards
+  * Home
+  * Admin
+* Categories
+  * Create
+  * Update
+  * Delete
+  * Move
+  * Indexing
+* Content
+  * Create
+  * Update
+  * Delete
+  * Indexing
+* Tags
+  * Create
+  * Update
+  * Delete
 * Search
-* Indexing
+  * Box
+  * Results
 * Users
   * Change password
-* Home
-* Content
-  * Types?
-  * Images / uploads?
-  * Articles
-* Tags
-* Search
-* Admin
-  * Create category
-  * Create content
-  * Create users
 
 1
 1-2

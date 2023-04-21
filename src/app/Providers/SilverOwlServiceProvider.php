@@ -13,7 +13,7 @@ class SilverOwlServiceProvider extends ServiceProvider
             __DIR__.'/../../config/silverowl.php',
             'silverowl'
         );
-        
+
         $this->commands([
             AddUser::class,
         ]);
@@ -26,7 +26,7 @@ class SilverOwlServiceProvider extends ServiceProvider
         $this->bootRoutes();
         $this->bootViews();
     }
-    
+
     protected function bootMigrations(): void
     {
         $this->loadMigrationsFrom([

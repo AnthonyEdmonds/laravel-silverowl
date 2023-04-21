@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class ByUsernameTest extends TestCase
 {
     protected User $expected;
-    
+
     protected Collection $unexpected;
 
     protected function setUp(): void

@@ -10,15 +10,15 @@ class AddUser extends Command
     protected $signature = 'add:user';
 
     protected $description = 'Adds a User to the system';
-    
+
     public function handle(): void
     {
         $this->info('This command will add a new User to the system.');
         $this->info('The User will immediately be granted access, with all that entails.');
-        
+
         do {
             $this->newLine();
-            
+
             $this->info('Provide a unique username for this User.');
             $username = $this->ask('What is their username?');
 
@@ -30,10 +30,10 @@ class AddUser extends Command
                 $username = null;
             }
         } while ($username === null);
-        
+
         do {
             $this->newLine();
-            
+
             $this->info('Provide a password for this User.');
             $this->info('A passphrase of at least 16 characters is required, such as "myverygoodfriend".');
             $this->info('They will be able to reset their password when they sign in.');
@@ -47,7 +47,7 @@ class AddUser extends Command
                 $password = null;
             }
         } while ($password === null);
-    
+
         $user = new User();
         $user->username = $username;
         $user->password = $password;
