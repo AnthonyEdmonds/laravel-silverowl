@@ -19,7 +19,6 @@ return new class extends Migration
 
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('category_id');
-            $table->string('index');
 
             $table->foreign('author_id', 'fk_contents_author')
                 ->references('id')

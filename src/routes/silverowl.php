@@ -10,6 +10,8 @@ use AnthonyEdmonds\SilverOwl\Http\Controllers\SignInController;
 use AnthonyEdmonds\SilverOwl\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
+Route::redirect('/silverowl', 'https://github.com/AnthonyEdmonds/laravel-silverowl/')->name('silverowl');
+
 Route::prefix('/search')
     ->name('search')
     ->controller(SearchController::class)

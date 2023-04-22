@@ -18,7 +18,6 @@ class ContentFactory extends Factory
             'markdown' => '#Hello',
             'author_id' => User::factory(),
             'category_id' => Category::factory(),
-            'index' => '1/2/3',
         ];
     }
 }

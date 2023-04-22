@@ -27,7 +27,6 @@ class Content extends Model
         'category_id',
         'created_at',
         'id',
-        'index',
         'slug',
         'updated_at',
         'views',

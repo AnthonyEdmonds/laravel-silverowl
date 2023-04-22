@@ -6,3 +6,5 @@ parameters:
   paths:
     - src
     - tests
+  excludePaths:
+    - src/database/factories

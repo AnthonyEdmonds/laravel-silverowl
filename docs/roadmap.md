@@ -4,7 +4,23 @@
 
 ## Todo
 
-* Literally the entire UI
+* UI
+  * Page
+  * CSS
+  * JS
+  * Header
+    * Logo
+    * Categories
+    * Search Bar
+    * Dark toggle
+  * Breadcrumbs
+  * Content
+    * Categories
+    * Content
+    * Related
+  * Footer
+    * Links
+    * Logo
 * Docs
 * Markdown
   * CommonMark
@@ -17,22 +33,17 @@
   * Update
   * Delete
   * Move
-  * Indexing
+  * Category / Content count
 * Content
   * Create
   * Update
   * Delete
-  * Indexing
+  * Views
 * Tags
   * Create
   * Update
   * Delete
 * Search
-  * Box
   * Results
 * Users
   * Change password
-
-1
-1-2
-1-35-45

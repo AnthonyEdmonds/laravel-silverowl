@@ -14,7 +14,14 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->unique()->name(),
             'description' => $this->faker->text(),
-            'index' => '1/2/3',
+            'index' => '1-2-3',
         ];
+    }
+
+    public function forParent(Category $parent): self
+    {
+        return $this->afterMaking(function (Category $category) use ($parent) {
+            $category->parent()->associate($parent);
+        });
     }
 }
