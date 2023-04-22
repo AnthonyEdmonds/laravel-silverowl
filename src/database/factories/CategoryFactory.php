@@ -18,8 +18,12 @@ class CategoryFactory extends Factory
         ];
     }
 
-    public function forParent(Category $parent): self
+    public function forParent(Category $parent = null): self
     {
+        if ($parent === null) {
+            $parent = Category::factory()->create();
+        }
+
         return $this->afterMaking(function (Category $category) use ($parent) {
             $category->parent()->associate($parent);
         });

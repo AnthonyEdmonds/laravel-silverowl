@@ -18,7 +18,7 @@ class RelationshipsTest extends TestCase
         $this->category = Category::factory()
             ->hasChildren(3)
             ->hasContents(3)
-            ->hasParent()
+            ->forParent()
             ->hasTags(3)
             ->create();
     }
