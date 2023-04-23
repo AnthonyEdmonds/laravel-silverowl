@@ -33,7 +33,6 @@
   * Update
   * Delete
   * Move
-  * Category / Content count
 * Content
   * Create
   * Update

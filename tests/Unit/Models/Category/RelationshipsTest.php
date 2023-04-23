@@ -63,4 +63,41 @@ class RelationshipsTest extends TestCase
             );
         }
     }
+
+    public function testHasSubcategories(): void
+    {
+        $unexpected = Category::factory()
+            ->count(3)
+            ->hasChildren(3)
+            ->create();
+
+        $this->assertResultsMatch(
+            $this->category->subcategories,
+            $this->category->children,
+            $unexpected,
+        );
+    }
+
+    public function testHasSubcontents(): void
+    {
+        $expected = $this->category->contents;
+
+        foreach ($this->category->children as $child) {
+            $expected->push(
+                Content::factory()
+                    ->forCategory($child)
+                    ->create()
+            );
+        }
+
+        $unexpected = Content::factory()
+            ->count(3)
+            ->create();
+
+        $this->assertResultsMatch(
+            $this->category->subcontents,
+            $expected,
+            $unexpected,
+        );
+    }
 }

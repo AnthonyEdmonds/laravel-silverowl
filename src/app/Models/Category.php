@@ -3,12 +3,15 @@
 namespace AnthonyEdmonds\SilverOwl\Models;
 
 use AnthonyEdmonds\SilverOwl\Database\Factories\CategoryFactory;
+use AnthonyEdmonds\SilverOwl\Relationships\KeylessRelationship;
+use AnthonyEdmonds\SilverOwl\Traits\HasKeylessRelationships;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -18,10 +21,13 @@ use Illuminate\Support\Str;
  * @property Category|null $parent
  * @property int $parent_id
  * @property string $slug
+ * @property Collection|null $subcategories
+ * @property Collection|null $subcontents
  */
 class Category extends Model
 {
     use HasFactory;
+    use HasKeylessRelationships;
 
     protected $fillable = [
         'description',
@@ -84,6 +90,29 @@ class Category extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function subcategories(): KeylessRelationship
+    {
+        return $this->keylessRelation(Category::class, [
+            [
+                'remote_column' => 'index',
+                'comparator' => 'LIKE',
+                'value' => "$this->index-%",
+            ],
+        ]);
+    }
+
+    public function subcontents(): Builder
+    {
+        return $this->keylessRelation(Content::class, [
+            [
+                'remote_column' => 'categories.index',
+                'comparator' => 'LIKE',
+                'value' => "$this->index%",
+            ],
+        ])
+            ->leftJoin('categories', 'categories.id', '=', 'contents.category_id');
     }
 
     // Setters

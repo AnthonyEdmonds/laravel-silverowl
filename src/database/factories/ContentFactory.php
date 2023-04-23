@@ -20,4 +20,11 @@ class ContentFactory extends Factory
             'category_id' => Category::factory(),
         ];
     }
+
+    public function forCategory(Category $category): self
+    {
+        return $this->afterMaking(function (Content $content) use ($category) {
+            return $content->category()->associate($category);
+        });
+    }
 }
