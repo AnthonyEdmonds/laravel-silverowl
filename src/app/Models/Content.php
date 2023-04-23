@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 /**
  * @property string $slug
  * @property string $title
+ * @property int $views
  */
 class Content extends Model
 {
@@ -65,6 +66,14 @@ class Content extends Model
     }
 
     // Utilities
+    public function addView(): self
+    {
+        $this->views++;
+        $this->save();
+
+        return $this;
+    }
+
     protected static function newFactory(): ContentFactory
     {
         return new ContentFactory();

@@ -38,7 +38,6 @@
   * Create
   * Update
   * Delete
-  * Views
 * Tags
   * Create
   * Update
