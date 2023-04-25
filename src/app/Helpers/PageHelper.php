@@ -12,9 +12,6 @@ class PageHelper
         string $blade,
         array $breadcrumbs,
     ): View {
-        // TODO Load footer links
-        // TODO Load header links
-        
         return view($blade)
             ->with('breadcrumbs', $breadcrumbs)
             ->with('footerLinks', self::loadFooterLinks())
@@ -26,14 +23,15 @@ class PageHelper
     {
         return config('silverowl.footer.links');
     }
-    
+
     public static function loadHeaderLinks(): array
     {
         return Category::query()
             ->atRootLevel()
-            ->pluck('name', 'id')
-            ->mapWithKeys(function ($name, $id) {
-                return [ $name => route('categories.show', $id) ];
-            });
+            ->pluck('name', 'slug')
+            ->mapWithKeys(function ($name, $slug) {
+                return [$name => route('categories.show', $slug)];
+            })
+            ->toArray();
     }
 }

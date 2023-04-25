@@ -73,6 +73,11 @@ class Category extends Model
         });
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     // Relationships
     public function ancestors(): KeylessRelationship
     {
@@ -90,7 +95,7 @@ class Category extends Model
             ],
         ]);
     }
-    
+
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id', 'id');
@@ -110,7 +115,7 @@ class Category extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
-    
+
     public function subcategories(): KeylessRelationship
     {
         return $this->keylessRelation(Category::class, [
@@ -139,7 +144,7 @@ class Category extends Model
             ->select('contents.*')
             ->leftJoin('categories', 'categories.id', '=', 'contents.category_id');
     }
-    
+
     // Scopes
     public function scopeAtRootLevel(Builder $query): Builder
     {
@@ -152,21 +157,21 @@ class Category extends Model
         $this->attributes['name'] = $name;
         $this->attributes['slug'] = Str::slug($name);
     }
-    
+
     // Getters
     public function getBreadcrumbsAttribute(): array
     {
         $breadcrumbs = [];
-        
+
         $steps = explode(',', $this->index, -2);
-        
+
         foreach ($steps as $ancestorId) {
             $ancestor = $this->ancestors->where('id', '=', $ancestorId)->first();
             $breadcrumbs[$ancestor->name] = route('categories.show', $ancestor);
         }
-        
+
         $breadcrumbs[$this->name] = route('categories.show', $this);
-        
+
         return $breadcrumbs;
     }
 
@@ -190,9 +195,9 @@ class Category extends Model
         $newIndex = $this->index;
 
         $this->newQuery()
-            ->where('index', 'LIKE', "$oldIndex,%")
+            ->where('index', 'LIKE', "$oldIndex%")
             ->update([
-                'index' => DB::raw("REPLACE(`index`, '$oldIndex,', '$newIndex,')"),
+                'index' => DB::raw("REPLACE(`index`, '$oldIndex', '$newIndex')"),
             ]);
     }
 

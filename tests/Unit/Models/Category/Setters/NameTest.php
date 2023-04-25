@@ -5,7 +5,7 @@ namespace AnthonyEdmonds\LaravelSilverowl\Tests\Unit\Models\Category\Setters;
 use AnthonyEdmonds\SilverOwl\Models\Category;
 use AnthonyEdmonds\SilverOwl\Tests\TestCase;
 
-class ContentsTest extends TestCase
+class NameTest extends TestCase
 {
     protected Category $category;
 

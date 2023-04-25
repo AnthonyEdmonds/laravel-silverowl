@@ -45,3 +45,5 @@
   * Results
 * Users
   * Change password
+* Arbitrary page system, with markdown content?
+  * Privacy

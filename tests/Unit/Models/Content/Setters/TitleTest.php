@@ -5,7 +5,7 @@ namespace AnthonyEdmonds\LaravelSilverowl\Tests\Unit\Models\Content\Setters;
 use AnthonyEdmonds\SilverOwl\Models\Content;
 use AnthonyEdmonds\SilverOwl\Tests\TestCase;
 
-class ContentsTest extends TestCase
+class TitleTest extends TestCase
 {
     protected Content $content;
 

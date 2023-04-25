@@ -24,11 +24,11 @@ class TestCase extends BaseTestCase
         $this->app->useDatabasePath(__DIR__.'/../src/database');
         $this->runLaravelMigrations();
     }
-    
+
     protected function tearDown(): void
     {
         Schema::disableForeignKeyConstraints();
-        
+
         parent::tearDown();
     }
 

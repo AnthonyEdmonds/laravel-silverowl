@@ -19,7 +19,7 @@ class SetIndexTest extends TestCase
         $this->category->setIndex();
 
         $this->assertEquals(
-            '12',
+            '12,',
             $this->category->index,
         );
     }
@@ -27,7 +27,7 @@ class SetIndexTest extends TestCase
     public function testAddsParentIndex(): void
     {
         $this->parent = Category::factory()->make([
-            'index' => '13,67',
+            'index' => '13,67,',
         ]);
 
         $this->category = Category::factory()->make();
@@ -37,7 +37,7 @@ class SetIndexTest extends TestCase
         $this->category->setIndex();
 
         $this->assertEquals(
-            '13,67,12',
+            '13,67,12,',
             $this->category->index,
         );
     }

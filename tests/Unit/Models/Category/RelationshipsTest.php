@@ -14,7 +14,7 @@ class RelationshipsTest extends TestCase
         $category = Category::factory()
             ->hasChildren(3)
             ->create();
-        
+
         $this->assertCount(3, $category->children);
 
         foreach ($category->children as $child) {
@@ -30,7 +30,7 @@ class RelationshipsTest extends TestCase
         $category = Category::factory()
             ->hasContents(3)
             ->create();
-        
+
         $this->assertCount(3, $category->contents);
 
         foreach ($category->contents as $content) {
@@ -46,7 +46,7 @@ class RelationshipsTest extends TestCase
         $category = Category::factory()
             ->forParent()
             ->create();
-        
+
         $this->assertInstanceOf(Category::class, $category->parent);
     }
 
@@ -55,7 +55,7 @@ class RelationshipsTest extends TestCase
         $category = Category::factory()
             ->hasTags(3)
             ->create();
-        
+
         $this->assertCount(3, $category->tags);
 
         foreach ($category->tags as $tag) {
@@ -71,9 +71,9 @@ class RelationshipsTest extends TestCase
         $category = Category::factory()
             ->hasChildren(3)
             ->create();
-        
+
         $expected = $category->children;
-        
+
         foreach ($category->children as $child) {
             $expected->push(
                 Category::factory()
@@ -81,19 +81,19 @@ class RelationshipsTest extends TestCase
                     ->create(),
             );
         }
-        
+
         $unexpectedCategory = Category::factory()
             ->forParent()
             ->hasChildren(3)
             ->create();
-        
+
         $unexpected = collect([
             $unexpectedCategory,
         ])
             ->push($unexpectedCategory->parent)
             ->merge($unexpectedCategory->children)
             ->push($category);
-        
+
         $this->assertResultsMatch(
             $category->subcategories,
             $expected,
@@ -107,7 +107,7 @@ class RelationshipsTest extends TestCase
             ->hasChildren(3)
             ->hasContents(3)
             ->create();
-        
+
         $expected = $category->contents;
 
         foreach ($category->children as $child) {
@@ -121,36 +121,36 @@ class RelationshipsTest extends TestCase
         $unexpected = Content::factory()
             ->count(3)
             ->create();
-        
+
         $this->assertResultsMatch(
             $category->subcontents,
             $expected,
             $unexpected,
         );
     }
-    
+
     public function testHasAncestors(): void
     {
         $category = Category::factory()
             ->forParent()
             ->hasChildren()
             ->create();
-        
+
         $expected = collect([
             $category->parent,
             $category,
         ]);
-        
+
         $unexpected = Category::factory()
             ->count(3)
             ->create()
             ->push($category->children);
-        
+
         $this->assertResultsMatch(
             $category->children->first()->ancestors,
             $expected,
             $unexpected,
         );
-        
+
     }
 }

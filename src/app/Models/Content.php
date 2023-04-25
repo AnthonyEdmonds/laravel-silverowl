@@ -43,6 +43,12 @@ class Content extends Model
         'views' => 'int',
     ];
 
+    // Setup
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     // Relationships
     public function author(): BelongsTo
     {
@@ -65,13 +71,13 @@ class Content extends Model
         $this->attributes['title'] = $title;
         $this->attributes['slug'] = Str::slug($title);
     }
-    
+
     // Getters
     public function getBreadcrumbsAttribute(): array
     {
         $breadcrumbs = $this->category->breadcrumbs;
-        $breadcrumbs[$this->title] = route('contents.show', $this);
-        
+        $breadcrumbs[$this->title] = route('contents.show', [$this->category, $this]);
+
         return $breadcrumbs;
     }
 

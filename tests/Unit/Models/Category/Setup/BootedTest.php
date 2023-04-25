@@ -37,7 +37,7 @@ class BootedTest extends TestCase
         $this->category->save();
 
         $this->assertEquals(
-            $this->category->id,
+            $this->category->id.',',
             $this->category->index,
         );
     }
@@ -49,7 +49,7 @@ class BootedTest extends TestCase
         $this->category->save();
 
         $this->assertEquals(
-            $this->parent->id.'-'.$this->category->id,
+            $this->parent->id.','.$this->category->id.',',
             $this->category->index,
         );
     }

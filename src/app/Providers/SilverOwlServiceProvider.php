@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\SilverOwl\Providers;
 
 use AnthonyEdmonds\SilverOwl\Console\Commands\AddUser;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class SilverOwlServiceProvider extends ServiceProvider
@@ -25,12 +26,14 @@ class SilverOwlServiceProvider extends ServiceProvider
         $this->bootPublishes();
         $this->bootRoutes();
         $this->bootViews();
+
+        Model::preventLazyLoading(app()->environment() !== 'production');
     }
 
     protected function bootMigrations(): void
     {
         $this->loadMigrationsFrom([
-            __DIR__.'../../database/migrations',
+            __DIR__.'/../../database/migrations',
         ]);
     }
 
