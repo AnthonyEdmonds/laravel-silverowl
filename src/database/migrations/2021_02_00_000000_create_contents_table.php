@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -36,6 +37,15 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (DB::getDefaultConnection() !== 'sqlite') {
+            Schema::table('contents', function (Blueprint $table) {
+                $table->dropForeign([
+                    'fk_contents_author',
+                    'fk_contents_category',
+                ]);
+            });
+        }
+        
         Schema::dropIfExists('contents');
     }
 };

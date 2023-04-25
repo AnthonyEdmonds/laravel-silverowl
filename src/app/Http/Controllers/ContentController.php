@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\SilverOwl\Http\Controllers;
 
+use AnthonyEdmonds\SilverOwl\Helpers\PageHelper;
 use AnthonyEdmonds\SilverOwl\Models\Content;
 use Illuminate\Contracts\View\View;
 
@@ -11,6 +12,12 @@ class ContentController extends Controller
     {
         $content->addView();
 
-        return view('silverowl::contents.show');
+        return PageHelper::standard(
+            $content->title,
+            'silverowl::contents.show',
+            $content->breadcrumbs,
+        )
+            ->with('category', $content->category)
+            ->with('content', $content);
     }
 }

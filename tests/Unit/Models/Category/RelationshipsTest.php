@@ -9,25 +9,15 @@ use AnthonyEdmonds\SilverOwl\Tests\TestCase;
 
 class RelationshipsTest extends TestCase
 {
-    protected Category $category;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->category = Category::factory()
-            ->hasChildren(3)
-            ->hasContents(3)
-            ->forParent()
-            ->hasTags(3)
-            ->create();
-    }
-
     public function testHasManyChildren(): void
     {
-        $this->assertCount(3, $this->category->children);
+        $category = Category::factory()
+            ->hasChildren(3)
+            ->create();
+        
+        $this->assertCount(3, $category->children);
 
-        foreach ($this->category->children as $child) {
+        foreach ($category->children as $child) {
             $this->assertInstanceOf(
                 Category::class,
                 $child,
@@ -37,9 +27,13 @@ class RelationshipsTest extends TestCase
 
     public function testHasManyContents(): void
     {
-        $this->assertCount(3, $this->category->contents);
+        $category = Category::factory()
+            ->hasContents(3)
+            ->create();
+        
+        $this->assertCount(3, $category->contents);
 
-        foreach ($this->category->contents as $content) {
+        foreach ($category->contents as $content) {
             $this->assertInstanceOf(
                 Content::class,
                 $content,
@@ -49,14 +43,22 @@ class RelationshipsTest extends TestCase
 
     public function testBelongsToParent(): void
     {
-        $this->assertInstanceOf(Category::class, $this->category->parent);
+        $category = Category::factory()
+            ->forParent()
+            ->create();
+        
+        $this->assertInstanceOf(Category::class, $category->parent);
     }
 
     public function testBelongsToManyTags(): void
     {
-        $this->assertCount(3, $this->category->tags);
+        $category = Category::factory()
+            ->hasTags(3)
+            ->create();
+        
+        $this->assertCount(3, $category->tags);
 
-        foreach ($this->category->tags as $tag) {
+        foreach ($category->tags as $tag) {
             $this->assertInstanceOf(
                 Tag::class,
                 $tag,
@@ -66,38 +68,89 @@ class RelationshipsTest extends TestCase
 
     public function testHasSubcategories(): void
     {
-        $unexpected = Category::factory()
-            ->count(3)
+        $category = Category::factory()
             ->hasChildren(3)
             ->create();
-
+        
+        $expected = $category->children;
+        
+        foreach ($category->children as $child) {
+            $expected->push(
+                Category::factory()
+                    ->forParent($child)
+                    ->create(),
+            );
+        }
+        
+        $unexpectedCategory = Category::factory()
+            ->forParent()
+            ->hasChildren(3)
+            ->create();
+        
+        $unexpected = collect([
+            $unexpectedCategory,
+        ])
+            ->push($unexpectedCategory->parent)
+            ->merge($unexpectedCategory->children)
+            ->push($category);
+        
         $this->assertResultsMatch(
-            $this->category->subcategories,
-            $this->category->children,
+            $category->subcategories,
+            $expected,
             $unexpected,
         );
     }
 
     public function testHasSubcontents(): void
     {
-        $expected = $this->category->contents;
+        $category = Category::factory()
+            ->hasChildren(3)
+            ->hasContents(3)
+            ->create();
+        
+        $expected = $category->contents;
 
-        foreach ($this->category->children as $child) {
+        foreach ($category->children as $child) {
             $expected->push(
                 Content::factory()
                     ->forCategory($child)
-                    ->create()
+                    ->create(),
             );
         }
 
         $unexpected = Content::factory()
             ->count(3)
             ->create();
-
+        
         $this->assertResultsMatch(
-            $this->category->subcontents,
+            $category->subcontents,
             $expected,
             $unexpected,
         );
+    }
+    
+    public function testHasAncestors(): void
+    {
+        $category = Category::factory()
+            ->forParent()
+            ->hasChildren()
+            ->create();
+        
+        $expected = collect([
+            $category->parent,
+            $category,
+        ]);
+        
+        $unexpected = Category::factory()
+            ->count(3)
+            ->create()
+            ->push($category->children);
+        
+        $this->assertResultsMatch(
+            $category->children->first()->ancestors,
+            $expected,
+            $unexpected,
+        );
+        
     }
 }

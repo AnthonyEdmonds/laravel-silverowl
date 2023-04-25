@@ -43,6 +43,19 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  *     ],
  * ])
  *     ->leftJoin('pivot_table', 'pivot_table.id', '=', 'other_model.pivot_id');
+ * 
+ * You may use the "IN" comparator to add a whereIn condition. Ensure that the
+ * provided local_column or value can be converted to an array either by the model
+ * or by providing a `delimiter` to perform an `explode`
+ * 
+ * return $this->keylessRelationship(OtherModel::class, [
+ *     [
+ *         'remote_column' => 'pivot_table.any_column',
+ *         'comparator' => 'IN',
+ *         'local_column' => 'another_column',
+ *         'delimiter' => ',',
+ *     ],
+ * ])
  *
  * @mixin Builder
  *
@@ -56,10 +69,9 @@ class KeylessRelationship extends Relation
     protected $wheres;
 
     /**
-     * @param  Model  $parent The original model that bears the relationships
-     * @param  string|Model  $related The related Eloquent model or fully qualified name
-     * @param  array  $wheres The list of parameters to execute on the related model
-     *
+     * @param Model $parent The original model that bears the relationships
+     * @param string|Model $related The related Eloquent model or fully qualified name
+     * @param array $wheres The list of parameters to execute on the related model
      * @throws Exception
      */
     public function __construct(Model $parent, $related, array $wheres)
@@ -91,7 +103,7 @@ class KeylessRelationship extends Relation
     /**
      * Add query constraints when performing eager loading
      *
-     * @param  array  $models The pre-retrieved models
+     * @param array $models The pre-retrieved models
      */
     public function addEagerConstraints(array $models): void
     {
@@ -103,8 +115,8 @@ class KeylessRelationship extends Relation
     /**
      * Initialise the relationship key on the target models with the retrieved object type
      *
-     * @param  array  $models The pre-retrieved models
-     * @param  string  $relation The name of the relation key
+     * @param array $models The pre-retrieved models
+     * @param string $relation The name of the relation key
      */
     public function initRelation(array $models, $relation): array
     {
@@ -118,8 +130,8 @@ class KeylessRelationship extends Relation
     /**
      * Match the eagerly loaded results to their parents.
      *
-     * @param  array  $models The pre-retrieved models
-     * @param  string  $relation
+     * @param array $models The pre-retrieved models
+     * @param string $relation
      */
     public function match(array $models, Collection $results, $relation): array
     {
@@ -138,7 +150,7 @@ class KeylessRelationship extends Relation
     /**
      * Add constraints to the query based on a known model
      *
-     * @param  Model  $model The model to constrain against
+     * @param Model $model The model to constrain against
      */
     protected function addQueryConstraints(Model $model): void
     {
@@ -150,16 +162,24 @@ class KeylessRelationship extends Relation
     /**
      * Add a constraint to the query based on a known model and where condition
      *
-     * @param  Model  $model The model to constrain against
-     * @param  array  $where The where clause to apply
+     * @param Model $model The model to constrain against
+     * @param array $where The where clause to apply
      */
     protected function addQueryConstraint(Model $model, array $where): void
     {
-        $this->query->where(
-            $where['remote_column'],
-            $where['comparator'],
-            $where['value'] ?? $model[$where['local_column']],
-        );
+        $remote = $where['remote_column'];
+        $local = $where['value'] ?? $model[$where['local_column']];
+        
+        if ($where['comparator'] === 'IN') {
+            if (is_array($local) === false) {
+                $local = explode($where['delimiter'], $local);
+            }
+            
+            $this->query->whereIn($remote, $local);
+            
+        } else {
+            $this->query->where($remote, $where['comparator'], $local);
+        }
     }
 
     protected function matchResultsToModel(Collection $results, Model $model): Collection
@@ -192,17 +212,21 @@ class KeylessRelationship extends Relation
             } else {
                 return str_ends_with($remote, $local) === true;
             }
+            
+        } elseif ($where['comparator'] === 'IN') {
+            return str_contains($local, $remote) === true;
+            
+        } else {
+            return match ($where['comparator']) {
+                '<' => $remote < $local,
+                '>' => $remote > $local,
+                '<=' => $remote <= $local,
+                '>=' => $remote >= $local,
+                '!=' => $remote != $local,
+                '<>', '!==' => $remote !== $local,
+                '==' => $remote == $local,
+                default => $remote === $local,
+            };
         }
-
-        return match ($where['comparator']) {
-            '<' => $remote < $local,
-            '>' => $remote > $local,
-            '<=' => $remote <= $local,
-            '>=' => $remote >= $local,
-            '!=' => $remote != $local,
-            '<>', '!==' => $remote !== $local,
-            '==' => $remote == $local,
-            default => $remote === $local,
-        };
     }
 }

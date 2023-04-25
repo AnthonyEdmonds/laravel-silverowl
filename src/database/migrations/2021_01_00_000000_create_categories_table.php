@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('parent_id')->nullable();
             $table->string('index');
 
-            $table->foreign('parent_id')
+            $table->foreign('parent_id', 'fk_category_parent')
                 ->references('id')
                 ->on('categories')
                 ->cascadeOnUpdate()
@@ -29,6 +30,14 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (DB::getDefaultConnection() !== 'sqlite') {
+            Schema::table('categories', function (Blueprint $table) {
+                $table->dropForeign([
+                    'fk_category_parent',
+                ]);
+            });
+        }
+        
         Schema::dropIfExists('categories');
     }
 };

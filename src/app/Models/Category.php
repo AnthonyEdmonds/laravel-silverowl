@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
+ * @property Collection|null $ancestors
+ * @property array $breadcrumbs
  * @property string $index
  * @property string $name
  * @property Category|null $parent
@@ -72,6 +74,23 @@ class Category extends Model
     }
 
     // Relationships
+    public function ancestors(): KeylessRelationship
+    {
+        return $this->keylessRelation(Category::class, [
+            [
+                'remote_column' => 'id',
+                'comparator' => 'IN',
+                'local_column' => 'index',
+                'delimiter' => ',',
+            ],
+            [
+                'remote_column' => 'id',
+                'comparator' => '<>',
+                'local_column' => 'id',
+            ],
+        ]);
+    }
+    
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id', 'id');
@@ -91,14 +110,19 @@ class Category extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
-
+    
     public function subcategories(): KeylessRelationship
     {
         return $this->keylessRelation(Category::class, [
             [
                 'remote_column' => 'index',
                 'comparator' => 'LIKE',
-                'value' => "$this->index-%",
+                'local_column' => 'fuzzy_index',
+            ],
+            [
+                'remote_column' => 'id',
+                'comparator' => '<>',
+                'local_column' => 'id',
             ],
         ]);
     }
@@ -109,10 +133,17 @@ class Category extends Model
             [
                 'remote_column' => 'categories.index',
                 'comparator' => 'LIKE',
-                'value' => "$this->index%",
+                'local_column' => 'fuzzy_index',
             ],
         ])
+            ->select('contents.*')
             ->leftJoin('categories', 'categories.id', '=', 'contents.category_id');
+    }
+    
+    // Scopes
+    public function scopeAtRootLevel(Builder $query): Builder
+    {
+        return $query->whereNull('parent_id');
     }
 
     // Setters
@@ -121,13 +152,35 @@ class Category extends Model
         $this->attributes['name'] = $name;
         $this->attributes['slug'] = Str::slug($name);
     }
+    
+    // Getters
+    public function getBreadcrumbsAttribute(): array
+    {
+        $breadcrumbs = [];
+        
+        $steps = explode(',', $this->index, -2);
+        
+        foreach ($steps as $ancestorId) {
+            $ancestor = $this->ancestors->where('id', '=', $ancestorId)->first();
+            $breadcrumbs[$ancestor->name] = route('categories.show', $ancestor);
+        }
+        
+        $breadcrumbs[$this->name] = route('categories.show', $this);
+        
+        return $breadcrumbs;
+    }
+
+    public function getFuzzyIndexAttribute(): string
+    {
+        return $this->attributes['index'].'%';
+    }
 
     // Utilities
     public function setIndex(): void
     {
         $this->index = $this->parent === null
-            ? $this->id
-            : "{$this->parent->index}-{$this->id}";
+            ? "$this->id,"
+            : "{$this->parent->index}{$this->id},";
     }
 
     public function updateIndex(): void
@@ -137,9 +190,9 @@ class Category extends Model
         $newIndex = $this->index;
 
         $this->newQuery()
-            ->where('index', 'LIKE', "$oldIndex-%")
+            ->where('index', 'LIKE', "$oldIndex,%")
             ->update([
-                'index' => DB::raw("REPLACE(`index`, '$oldIndex', '$newIndex')"),
+                'index' => DB::raw("REPLACE(`index`, '$oldIndex,', '$newIndex,')"),
             ]);
     }
 

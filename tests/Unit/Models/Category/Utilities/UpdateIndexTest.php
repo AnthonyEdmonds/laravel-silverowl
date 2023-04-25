@@ -25,20 +25,20 @@ class UpdateIndexTest extends TestCase
 
         /*
          * Parent       16
-         * Category     16-66
-         * Child        16-66-24
-         * Other        16-666
-         * OtherChild   16-666-12
+         * Category     16,66
+         * Child        16,66,24
+         * Other        16,666
+         * OtherChild   16,666,12
          * NewParent    89
          *
          * BECOMES
          *
          * Parent       16
-         * Other        16-666
-         * OtherChild   16-666-12
+         * Other        16,666
+         * OtherChild   16,666,12
          * NewParent    89
-         * Category     89-66
-         * Child        89-66-24
+         * Category     89,66
+         * Child        89,66,24
          */
 
         $this->parent = Category::factory()
@@ -83,7 +83,7 @@ class UpdateIndexTest extends TestCase
     {
         $this->assertDatabaseHas('categories', [
             'id' => 66,
-            'index' => '89-66',
+            'index' => '89,66',
         ]);
     }
 
@@ -91,7 +91,7 @@ class UpdateIndexTest extends TestCase
     {
         $this->assertDatabaseHas('categories', [
             'id' => 24,
-            'index' => '89-66-24',
+            'index' => '89,66,24',
         ]);
     }
 
@@ -107,7 +107,7 @@ class UpdateIndexTest extends TestCase
     {
         $this->assertDatabaseHas('categories', [
             'id' => 666,
-            'index' => '16-666',
+            'index' => '16,666',
         ]);
     }
 
@@ -115,7 +115,7 @@ class UpdateIndexTest extends TestCase
     {
         $this->assertDatabaseHas('categories', [
             'id' => 12,
-            'index' => '16-666-12',
+            'index' => '16,666,12',
         ]);
     }
 }

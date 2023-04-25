@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 /**
+ * @property array $breadcrumbs
  * @property string $slug
  * @property string $title
  * @property int $views
@@ -63,6 +64,15 @@ class Content extends Model
     {
         $this->attributes['title'] = $title;
         $this->attributes['slug'] = Str::slug($title);
+    }
+    
+    // Getters
+    public function getBreadcrumbsAttribute(): array
+    {
+        $breadcrumbs = $this->category->breadcrumbs;
+        $breadcrumbs[$this->title] = route('contents.show', $this);
+        
+        return $breadcrumbs;
     }
 
     // Utilities
