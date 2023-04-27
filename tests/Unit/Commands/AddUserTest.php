@@ -4,9 +4,13 @@ namespace AnthonyEdmonds\SilverOwl\Tests\Unit\Commands;
 
 use AnthonyEdmonds\SilverOwl\Models\User;
 use AnthonyEdmonds\SilverOwl\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddUserTest extends TestCase
 {
+    use RefreshDatabase;
+
+    /** @runInSeparateProcess */
     public function testCreatesUser(): void
     {
         $this->artisan('add:user')
@@ -19,6 +23,7 @@ class AddUserTest extends TestCase
         ]);
     }
 
+    /** @runInSeparateProcess */
     public function testUsernameMustNotBeNull(): void
     {
         $this->artisan('add:user')
@@ -29,6 +34,7 @@ class AddUserTest extends TestCase
             ->assertOk();
     }
 
+    /** @runInSeparateProcess */
     public function testUsernameMustBeUnique(): void
     {
         $user = User::factory()->create();
@@ -41,6 +47,7 @@ class AddUserTest extends TestCase
             ->assertOk();
     }
 
+    /** @runInSeparateProcess */
     public function testPasswordMustNotBeNull(): void
     {
         $this->artisan('add:user')
@@ -51,6 +58,9 @@ class AddUserTest extends TestCase
             ->assertOk();
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testPasswordMustBeSixteenCharacters(): void
     {
         $this->artisan('add:user')
